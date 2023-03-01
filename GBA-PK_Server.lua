@@ -235,6 +235,22 @@ function GetGameVersion()
 	ConsoleForText:moveCursor(0,2)
 end
 
+--Sprite 'data'
+--This one was mostly just to test/for clean up if I ever felt like contributing
+--Format: each member is a line of pixels given by the index number of the palette being pulled from
+--        They're organized left->right top->bottom in groups of 8x8 squares     
+FRLGMaleSpriteLeft = {0x88880000, 0xBBBC8000, 0xBBBBC800, 
+                      0xBBBB9880, 0         , 0         , 
+                      0         , 0         , 0x8888    , 
+                      0x8CBBB   , 0x8BBBB   , 0x8CBBBB}
+
+ItemBallSprite     = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                      0x88000000, 0xCC800000, 0xCBC80000, 0xCC4C8000, 0xF44CF000, 0x1F4F5000, 0x1FF95000, 0xF9950000, 
+                      0x88, 0x8CC, 0x8C44, 0x8C444, 0xFC44F, 0x5F4F1, 0x59FF1, 0x599F,
+                      0x9A500000, 0x55000000, 0, 0, 0, 0, 0, 0,
+                      0x5A9, 0x55
+                      }
+
 --To fit everything in 1 file, I must unfortunately clog this file with a lot of sprite data. Luckily, this does not lag the game. It is just hard to read.
 --Also, if you are looking at this, then I am sorry. Truly      -TheHunterManX
 --IsBiking is temporary and is used for drawing the extra symbol
@@ -268,43 +284,11 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 		if SpriteID == 1 then
 			--Side Left
 			SpriteTempVar0 = ActualAddress
- 		SpriteTempVar1 = 2290614272
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149633664
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 0
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 0
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 0
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 0
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149699231
+        for i = 1, #ItemBallSprite do
+            emu:write32(SpriteTempVar0, ItemBallSprite[i])
+            SpriteTempVar0 = SpriteTempVar0 + 4
+        end
+		--[[SpriteTempVar1 = 3149699231
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3435965599
@@ -398,21 +382,21 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 0
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
+		emu:write32(SpriteTempVar0, SpriteTempVar1)]]-- 
 			--End of block
 		elseif SpriteID == 2 then
 		--Side Up
 			SpriteTempVar0 = ActualAddress
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149627392
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 0
@@ -427,16 +411,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8BBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149711360
@@ -538,16 +522,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 		elseif SpriteID == 3 then
 		--Side Down
 			SpriteTempVar0 = ActualAddress
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149627392
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 0
@@ -562,16 +546,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8BBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149713152
@@ -669,34 +653,34 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		elseif SpriteID == 4 then
+		--[[elseif SpriteID == 4 then
 		--Side Left Walk Cycle 1
 			SpriteTempVar0 = ActualAddress 
 			SpriteTempVar1 = 0
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 2290614272
+			SpriteTempVar1 = 0x88880000
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149692928
+			SpriteTempVar1 = 0xBBBC8000
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149645824
+			SpriteTempVar1 = 0xBBBBC800
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 20 
 			SpriteTempVar1 = 0
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 34952
+			SpriteTempVar1 = 0x8888
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 576443
+			SpriteTempVar1 = 0x8CBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 572347
+			SpriteTempVar1 = 0x8BBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149633664
+			SpriteTempVar1 = 0xBBBB9880
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 3149699231
@@ -720,7 +704,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 843202560
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 9223099
+			SpriteTempVar1 = 0x8CBBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 9227195
@@ -806,28 +790,28 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 0
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 2290614272
+			SpriteTempVar1 = 0x88880000
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149692928
+			SpriteTempVar1 = 0xBBBC8000
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149645824
+			SpriteTempVar1 = 0xBBBBC800
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 20 
 			SpriteTempVar1 = 0
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 34952
+			SpriteTempVar1 = 0x8888
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 576443
+			SpriteTempVar1 = 0x8CBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 572347
+			SpriteTempVar1 = 0x8BBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149633664
+			SpriteTempVar1 = 0xBBBB9880
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 3149699231
@@ -851,7 +835,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 843202560
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 9223099
+			SpriteTempVar1 = 0x8CBBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 9227195
@@ -930,17 +914,17 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			emu:write32(SpriteTempVar0, SpriteTempVar1)
 			SpriteTempVar0 = SpriteTempVar0 + 4
 			SpriteTempVar1 = 0
-			emu:write32(SpriteTempVar0, SpriteTempVar1)
+			emu:write32(SpriteTempVar0, SpriteTempVar1)]]
 		elseif SpriteID == 6 then
 		--Side Up Walk Cycle 1
 			SpriteTempVar0 = ActualAddress 
 			SpriteTempVar1 = 0
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 2290614272
+			SpriteTempVar1 = 0x88880000
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149692928
+			SpriteTempVar1 = 0xBBBC8000
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 3149627392
@@ -949,16 +933,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 0
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 34952
+			SpriteTempVar1 = 0x8888
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 576443
+			SpriteTempVar1 = 0x8CBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 572347
+			SpriteTempVar1 = 0x8BBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149645824
+			SpriteTempVar1 = 0xBBBBC800
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 3149711360
@@ -982,7 +966,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 1157587776
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 9223099
+			SpriteTempVar1 = 0x8CBBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 9227195
@@ -1068,10 +1052,10 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 0
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 2290614272
+			SpriteTempVar1 = 0x88880000
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149692928
+			SpriteTempVar1 = 0xBBBC8000
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 3149627392
@@ -1080,16 +1064,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 0
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 34952
+			SpriteTempVar1 = 0x8888
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 576443
+			SpriteTempVar1 = 0x8CBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 572347
+			SpriteTempVar1 = 0x8BBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149645824
+			SpriteTempVar1 = 0xBBBBC800
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 3149711360
@@ -1113,7 +1097,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 1157578752
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 9223099
+			SpriteTempVar1 = 0x8CBBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 9227195
@@ -1199,10 +1183,10 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 0
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 2290614272
+			SpriteTempVar1 = 0x88880000
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149692928
+			SpriteTempVar1 = 0xBBBC8000
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 3149627392
@@ -1211,16 +1195,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 0
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 34952
+			SpriteTempVar1 = 0x8888
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 576443
+			SpriteTempVar1 = 0x8CBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 572347
+			SpriteTempVar1 = 0x8BBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149645824
+			SpriteTempVar1 = 0xBBBBC800
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 3149713152
@@ -1244,7 +1228,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 607340084
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 9223099
+			SpriteTempVar1 = 0x8CBBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 16567227
@@ -1331,10 +1315,10 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 0
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 2290614272
+			SpriteTempVar1 = 0x88880000
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149692928
+			SpriteTempVar1 = 0xBBBC8000
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 3149627392
@@ -1343,16 +1327,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 0
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 34952
+			SpriteTempVar1 = 0x8888
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 576443
+			SpriteTempVar1 = 0x8CBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 572347
+			SpriteTempVar1 = 0x8BBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 3149645824
+			SpriteTempVar1 = 0xBBBBC800
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 3149713152
@@ -1376,7 +1360,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			SpriteTempVar1 = 607338496
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
-			SpriteTempVar1 = 9223099
+			SpriteTempVar1 = 0x8CBBBB
 			emu:write32(SpriteTempVar0, SpriteTempVar1) 
 			SpriteTempVar0 = SpriteTempVar0 + 4 
 			SpriteTempVar1 = 16567227
@@ -1587,16 +1571,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 				SpriteTempVar1 = 0
 				emu:write32(SpriteTempVar0, SpriteTempVar1) 
 				SpriteTempVar0 = SpriteTempVar0 + 4 
-				SpriteTempVar1 = 2290614272
+				SpriteTempVar1 = 0x88880000
 				emu:write32(SpriteTempVar0, SpriteTempVar1) 
 				SpriteTempVar0 = SpriteTempVar0 + 4 
-				SpriteTempVar1 = 3149692928
+				SpriteTempVar1 = 0xBBBC8000
 				emu:write32(SpriteTempVar0, SpriteTempVar1) 
 				SpriteTempVar0 = SpriteTempVar0 + 4 
-				SpriteTempVar1 = 3149645824
+				SpriteTempVar1 = 0xBBBBC800
 				emu:write32(SpriteTempVar0, SpriteTempVar1) 
 				SpriteTempVar0 = SpriteTempVar0 + 4 
-				SpriteTempVar1 = 3149633664
+				SpriteTempVar1 = 0xBBBB9880
 				emu:write32(SpriteTempVar0, SpriteTempVar1) 
 				SpriteTempVar0 = SpriteTempVar0 + 4 
 				SpriteTempVar1 = 3149699231
@@ -1611,16 +1595,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 				SpriteTempVar1 = 0
 				emu:write32(SpriteTempVar0, SpriteTempVar1) 
 				SpriteTempVar0 = SpriteTempVar0 + 4 
-				SpriteTempVar1 = 34952
+				SpriteTempVar1 = 0x8888
 				emu:write32(SpriteTempVar0, SpriteTempVar1) 
 				SpriteTempVar0 = SpriteTempVar0 + 4 
-				SpriteTempVar1 = 576443
+				SpriteTempVar1 = 0x8CBBB
 				emu:write32(SpriteTempVar0, SpriteTempVar1) 
 				SpriteTempVar0 = SpriteTempVar0 + 4 
-				SpriteTempVar1 = 572347
+				SpriteTempVar1 = 0x8BBBB
 				emu:write32(SpriteTempVar0, SpriteTempVar1) 
 				SpriteTempVar0 = SpriteTempVar0 + 4 
-				SpriteTempVar1 = 9223099
+				SpriteTempVar1 = 0x8CBBBB
 				emu:write32(SpriteTempVar0, SpriteTempVar1) 
 				SpriteTempVar0 = SpriteTempVar0 + 4 
 				SpriteTempVar1 = 9227195
@@ -1974,16 +1958,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149627392
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149711360
@@ -1998,16 +1982,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8BBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 9227195
@@ -2364,16 +2348,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149627392
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149713152
@@ -2388,16 +2372,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8BBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 16567227
@@ -2754,7 +2738,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 3150446592
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149498368
@@ -2775,7 +2759,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 559240
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 9157563
@@ -3137,7 +3121,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 2290647040
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149642880
@@ -3167,7 +3151,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 35771
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 576699
@@ -3524,7 +3508,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 2290647040
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149641728
@@ -3554,7 +3538,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 35771
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 576699
@@ -3917,7 +3901,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 3149398016
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3150741504
@@ -3935,7 +3919,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 559240
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 9157563
@@ -4301,7 +4285,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 2290647040
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149641728
@@ -4331,7 +4315,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 35771
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 1035451
@@ -4694,7 +4678,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 3149398016
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3150770176
@@ -4712,7 +4696,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 559240
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 9157563
@@ -4943,19 +4927,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 		elseif SpriteID == 19 then
 		--Run Side Left Idle
 		SpriteTempVar0 = ActualAddress 
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149633664
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 0
+ 		SpriteTempVar1 = 0xBBBB9880
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 0
@@ -4967,16 +4948,19 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8BBBB
+		emu:write32(SpriteTempVar0, SpriteTempVar1) 
+		SpriteTempVar0 = SpriteTempVar0 + 4 
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149699231
@@ -5081,16 +5065,13 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 0
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 0
@@ -5105,16 +5086,19 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149633664
+ 		SpriteTempVar1 = 0x8BBBB
+		emu:write32(SpriteTempVar0, SpriteTempVar1) 
+		SpriteTempVar0 = SpriteTempVar0 + 4 
+ 		SpriteTempVar1 = 0xBBBB9880
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149699231
@@ -5138,7 +5122,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 843202560
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 9227195
@@ -5216,16 +5200,13 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
-		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 0
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 0
@@ -5240,16 +5221,19 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149633664
+ 		SpriteTempVar1 = 0x8BBBB
+		emu:write32(SpriteTempVar0, SpriteTempVar1) 
+		SpriteTempVar0 = SpriteTempVar0 + 4 
+ 		SpriteTempVar1 = 0xBBBB9880
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149699231
@@ -5273,7 +5257,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 843202944
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 9227195
@@ -5348,16 +5332,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 		elseif SpriteID == 22 then
 		--Run Side Up Idle
 		SpriteTempVar0 = ActualAddress 
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149627392
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 0
@@ -5372,19 +5356,19 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8BBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149713152
@@ -5408,7 +5392,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 4293276480
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 16567227
@@ -5486,10 +5470,10 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149627392
@@ -5510,19 +5494,19 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8BBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149713152
@@ -5543,10 +5527,10 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 1157578496
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 16567227
@@ -5621,10 +5605,10 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149627392
@@ -5645,19 +5629,19 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8BBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149713152
@@ -5678,10 +5662,10 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 1157623808
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 16567227
@@ -5753,16 +5737,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 		elseif SpriteID == 25 then
 		--Run Side Down Idle
 		SpriteTempVar0 = ActualAddress 
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149627392
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 0
@@ -5777,16 +5761,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8BBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149647616
@@ -5891,10 +5875,10 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149627392
@@ -5915,16 +5899,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8BBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149647616
@@ -6026,10 +6010,10 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149627392
@@ -6050,13 +6034,13 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8BBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149645952
@@ -6083,7 +6067,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 790884352
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 16563131
@@ -8429,16 +8413,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1)
 		SpriteTempVar0 = ActualAddress 
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149627392
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 0
@@ -8453,16 +8437,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8BBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149713152
@@ -8579,16 +8563,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1)
 		SpriteTempVar0 = ActualAddress 
- 		SpriteTempVar1 = 2290614272
+ 		SpriteTempVar1 = 0x88880000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149627392
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149645824
+ 		SpriteTempVar1 = 0xBBBBC800
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 0
@@ -8603,16 +8587,16 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 34952
+ 		SpriteTempVar1 = 0x8888
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 576443
+ 		SpriteTempVar1 = 0x8CBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 572347
+ 		SpriteTempVar1 = 0x8BBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149711360
@@ -8735,7 +8719,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 3150446592
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 3149692928
+ 		SpriteTempVar1 = 0xBBBC8000
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3149498368
@@ -8756,7 +8740,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 559240
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
- 		SpriteTempVar1 = 9223099
+ 		SpriteTempVar1 = 0x8CBBBB
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 9157563
