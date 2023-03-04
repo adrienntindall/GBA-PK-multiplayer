@@ -19462,7 +19462,8 @@ function GetPosition()
 	CurrentY[PlayerID] = PlayerMapY
 --	console:log("X: " .. CurrentX[PlayerID])
 	--Male Firered Sprite from 1.0, 1.1, and leafgreen
-	if ((Bike == 160 or Bike == 272) or (Bike == 128 or Bike == 240)) then
+    if PlayerExtra3[PlayerID] > 2 then
+	elseif ((Bike == 160 or Bike == 272) or (Bike == 128 or Bike == 240)) then
 		PlayerExtra2[PlayerID] = 0
 		PlayerExtra3[PlayerID] = 0
 	--	if TempVar2 == 0 then ConsoleForText:print("Male on Foot") end
@@ -19567,7 +19568,7 @@ function GetPosition()
 			if PlayerDirection == 1 then PlayerExtra1[PlayerID] = 19 PlayerFacing = 2 end
 			if PlayerDirection == 2 then PlayerExtra1[PlayerID] = 20 PlayerFacing = 3 end
 		end
-	else
+	elseif PlayerExtra3[PlayerID] == 0 then
 		--Standing still
 		if PlayerFacing == 0 then PlayerExtra1[PlayerID] = 1 PlayerDirection = 4 end
 		if PlayerFacing == 1 then PlayerExtra1[PlayerID] = 2 PlayerDirection = 3 end
@@ -21675,6 +21676,18 @@ function mainLoop()
 	end
 end
 
+ObjLUT = {
+    ball = 3,
+    pokeball = 3,
+    itemball = 3,
+    item = 3
+}
+
+function Hide(obj) 
+    obj = string.lower(obj)
+    PlayerExtra3[PlayerID] = ObjLUT[obj]
+    console:log("Hiding!")
+end
 
 SocketMain:add("received", ReceiveData)
 callbacks:add("reset", GetNewGame)

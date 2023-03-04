@@ -284,11 +284,11 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 		if SpriteID == 1 then
 			--Side Left
 			SpriteTempVar0 = ActualAddress
-        for i = 1, #ItemBallSprite do
-            emu:write32(SpriteTempVar0, ItemBallSprite[i])
+        for i = 1, #FRLGMaleSpriteLeft do
+            emu:write32(SpriteTempVar0, FRLGMaleSpriteLeft[i])
             SpriteTempVar0 = SpriteTempVar0 + 4
         end
-		--[[SpriteTempVar1 = 3149699231
+		SpriteTempVar1 = 3149699231
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 3435965599
@@ -382,7 +382,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 0
-		emu:write32(SpriteTempVar0, SpriteTempVar1)]]-- 
+		emu:write32(SpriteTempVar0, SpriteTempVar1)
 			--End of block
 		elseif SpriteID == 2 then
 		--Side Up
@@ -17554,7 +17554,14 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
 		end
-	end
+	elseif SpriteNo == 3 then
+        --Pokeball
+        SpriteTempVar0 = ActualAddress
+        for i = 1, #ItemBallSprite do
+            emu:write32(SpriteTempVar0, ItemBallSprite[i])
+            SpriteTempVar0 = SpriteTempVar0 + 4
+        end
+    end
 	end
 end
 
@@ -19499,8 +19506,9 @@ function GetPosition()
 	CurrentX[PlayerID] = PlayerMapX
 	CurrentY[PlayerID] = PlayerMapY
 --	console:log("X: " .. CurrentX[PlayerID])
+    if PlayerExtra3[PlayerID] >= 3 then
 	--Male Firered Sprite from 1.0, 1.1, and leafgreen
-	if ((Bike == 160 or Bike == 272) or (Bike == 128 or Bike == 240)) then
+	elseif ((Bike == 160 or Bike == 272) or (Bike == 128 or Bike == 240)) then
 		PlayerExtra2[PlayerID] = 0
 		PlayerExtra3[PlayerID] = 0
 	--	if TempVar2 == 0 then ConsoleForText:print("Male on Foot") end
@@ -20104,8 +20112,11 @@ function HandleSprites()
 	for i = 1, MaxPlayers do
 		PlayerChar = i - 1
 		if PlayerID ~= i and PlayerIDNick[i] ~= "None" then
-			--Facing down
-			if PlayerExtra1[i] == 1 then createChars(PlayerChar,3,PlayerExtra2[i]) CurrentFacingDirection[i] = 4 Facing2[i] = 0 AnimatePlayerMovement(i, 251)
+			--Hiding
+            if PlayerExtra3[i] > 2 then createChars(PlayerChar, 0, PlayerExtra3[i])
+                
+            --Facing down
+			elseif PlayerExtra1[i] == 1 then createChars(PlayerChar,3,PlayerExtra2[i]) CurrentFacingDirection[i] = 4 Facing2[i] = 0 AnimatePlayerMovement(i, 251)
 			
 			--Facing up
 			elseif PlayerExtra1[i] == 2 then createChars(PlayerChar,2,PlayerExtra2[i]) CurrentFacingDirection[i] = 3 Facing2[i] = 0 AnimatePlayerMovement(i, 252)
@@ -21776,6 +21787,18 @@ function mainLoop()
 				elseif Var8000[2] == 1 then LockFromScript = 0 SendData("DTRA", Players[PlayerTalkingID]) Keypressholding = 1 end
 			end
 	end
+end
+
+ObjLUT = {
+    ball = 3,
+    pokeball = 3,
+    itemball = 3,
+    item = 3
+}
+
+function Hide(obj) 
+    obj = string.lower(obj)
+    console:log("Hiding!")
 end
 
 console:log("Started GBA-PK_Server.lua")
