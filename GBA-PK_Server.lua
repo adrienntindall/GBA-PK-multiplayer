@@ -253,8 +253,8 @@ ItemBallSprite     = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 --16 bit with bit 15 unused, xBBBBBGGGGGRRRRR in binary
 ItemBallPal        = {0, 0x6B1A, 0, 0, 0x14F2, 0x2D29, 0, 0, 0x004A, 0x7FFF, 0x6B18, 0x7FFF, 0x25BC}
 
-DittoSprite = {0, 0, 0, 0, 0, 0, 0, 0,  
-               0, 0, 0, 0, 0, 0, 0, 0
+DittoSprite = {0, 0, 0, 0, 0, 0,
+               0, 0, 0, 0, 0, 0,
                0, 0, 0, 0, 0, 0x01100000, 0x12210000, 0x22221000,   
                0, 0, 0, 0, 0, 0x110, 0x1221, 0x12222,
                0x23221000, 0x22222300, 0x33232100, 0x22223430, 0x22244430, 0x44444410, 0x44441100, 0x11110000,
@@ -263,6 +263,28 @@ DittoSprite = {0, 0, 0, 0, 0, 0, 0, 0,
 DittoPal = {0, 0x208A, 0x51DA, 0x7FFF, 0x3914}
 
 temp = 0
+
+function SetSprite(playerNo, spriteAdrs, sprite, palette) 
+    local PalIndexAddress = (0x30034D8 - 0x8*(playerNo-1)) + 0x5
+    --Object palettes
+    local PalAddress = 0x20377f8 + 32*(playerNo+12)
+    
+    SpriteTempVar0 = spriteAdrs
+    for i = 1, #sprite do
+        emu:write32(SpriteTempVar0, sprite[i])
+        SpriteTempVar0 = SpriteTempVar0 + 4
+    end
+    temp = emu:read8(PalIndexAddress)
+    temp = temp & 0x0F
+    temp = temp | (0x10*(12+playerNo))
+    emu:write8(PalIndexAddress, temp)
+    
+    SpriteTempVar0 = PalAddress
+    for i = 1, #palette do
+        emu:write16(SpriteTempVar0, palette[i])
+        SpriteTempVar0 = SpriteTempVar0 + 2
+    end
+end
 
 --To fit everything in 1 file, I must unfortunately clog this file with a lot of sprite data. Luckily, this does not lag the game. It is just hard to read.
 --Also, if you are looking at this, then I am sorry. Truly      -TheHunterManX
@@ -666,7 +688,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 		SpriteTempVar0 = SpriteTempVar0 + 4 
  		SpriteTempVar1 = 0
 		emu:write32(SpriteTempVar0, SpriteTempVar1) 
-		--[[elseif SpriteID == 4 then
+		elseif SpriteID == 4 then
 		--Side Left Walk Cycle 1
 			SpriteTempVar0 = ActualAddress 
 			SpriteTempVar1 = 0
@@ -927,7 +949,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			emu:write32(SpriteTempVar0, SpriteTempVar1)
 			SpriteTempVar0 = SpriteTempVar0 + 4
 			SpriteTempVar1 = 0
-			emu:write32(SpriteTempVar0, SpriteTempVar1)]]
+			emu:write32(SpriteTempVar0, SpriteTempVar1)
 		elseif SpriteID == 6 then
 		--Side Up Walk Cycle 1
 			SpriteTempVar0 = ActualAddress 
@@ -17569,47 +17591,15 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 		end
 	elseif SpriteNo == 3 then
         --Pokeball
-        
-        SpriteTempVar0 = ActualAddress
-        for i = 1, #ItemBallSprite do
-            emu:write32(SpriteTempVar0, ItemBallSprite[i])
-            SpriteTempVar0 = SpriteTempVar0 + 4
-        end
-        temp = emu:read8(PalIndexAddress)
-        temp = temp & 0x0F
-        temp = temp | (0x10*(12+StartAddressNo))
-        emu:write8(PalIndexAddress, temp)
-        
-        SpriteTempVar0 = PalAddress
-        for i = 1, #ItemBallPal do
-            emu:write16(SpriteTempVar0, ItemBallPal[i])
-            SpriteTempVar0 = SpriteTempVar0 + 2
-        end
+        SetSprite(StartAddressNo, ActualAddress, ItemBallSprite, ItemBallPal)
+    elseif SpriteNo == 4 then
+        --Ditto Doll
+        SetSprite(StartAddressNo, ActualAddress, DittoSprite, DittoPal)
     end
 	end
 end
 
-function SetSprite(playerNo, spriteAdrs, sprite, palette) {
-    local PalIndexAddress = (0x30034D8 - 0x8*(playerNo-1)) + 0x5
-    --Object palettes
-    local PalAddress = 0x20377f8 + 32*(StartAddressNo+12)
-    
-    SpriteTempVar0 = spriteAdrs
-    for i = 1, #sprite do
-        emu:write32(SpriteTempVar0, sprite[i])
-        SpriteTempVar0 = SpriteTempVar0 + 4
-    end
-    temp = emu:read8(PalIndexAddress)
-    temp = temp & 0x0F
-    temp = temp | (0x10*(12+playerNo))
-    emu:write8(PalIndexAddress, temp)
-    
-    SpriteTempVar0 = PalAddress
-    for i = 1, #palette do
-        emu:write16(SpriteTempVar0, palette[i])
-        SpriteTempVar0 = SpriteTempVar0 + 2
-    end
-}
+
 
 function GetPokemonTeam()
 	local PokemonTeamAddress = 0
