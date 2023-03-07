@@ -19463,6 +19463,8 @@ function GetPosition()
 --	console:log("X: " .. CurrentX[PlayerID])
 	--Male Firered Sprite from 1.0, 1.1, and leafgreen
     if PlayerExtra3[PlayerID] > 2 then
+        --PlayerExtra1[PlayerID] = 0
+        PlayerExtra2[PlayerID] = PlayerExtra3[PlayerID]
 	elseif ((Bike == 160 or Bike == 272) or (Bike == 128 or Bike == 240)) then
 		PlayerExtra2[PlayerID] = 0
 		PlayerExtra3[PlayerID] = 0
@@ -21680,7 +21682,9 @@ ObjLUT = {
     ball = 3,
     pokeball = 3,
     itemball = 3,
-    item = 3
+    item = 3,
+    ditto = 4,
+    dittodoll = 4
 }
 
 function Hide(obj) 

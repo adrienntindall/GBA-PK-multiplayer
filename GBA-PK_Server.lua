@@ -248,8 +248,21 @@ ItemBallSprite     = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                       0x88000000, 0xCC800000, 0xCBC80000, 0xCC4C8000, 0xF44CF000, 0x1F4F5000, 0x1FF95000, 0xF9950000, 
                       0x88, 0x8CC, 0x8C44, 0x8C444, 0xFC44F, 0x5F4F1, 0x59FF1, 0x599F,
                       0x9A500000, 0x55000000, 0, 0, 0, 0, 0, 0,
-                      0x5A9, 0x55
+                      0x5A9, 0x55, 0, 0, 0, 0, 0, 0, 0, 0
                       }
+--16 bit with bit 15 unused, xBBBBBGGGGGRRRRR in binary
+ItemBallPal        = {0, 0x6B1A, 0, 0, 0x14F2, 0x2D29, 0, 0, 0x004A, 0x7FFF, 0x6B18, 0x7FFF, 0x25BC}
+
+DittoSprite = {0, 0, 0, 0, 0, 0, 0, 0,  
+               0, 0, 0, 0, 0, 0, 0, 0
+               0, 0, 0, 0, 0, 0x01100000, 0x12210000, 0x22221000,   
+               0, 0, 0, 0, 0, 0x110, 0x1221, 0x12222,
+               0x23221000, 0x22222300, 0x33232100, 0x22223430, 0x22244430, 0x44444410, 0x44441100, 0x11110000,
+               0x12232, 0x122222, 0x123233, 0x3432222, 0x3444222, 0x1444444, 0x114444, 0x1111               }
+               
+DittoPal = {0, 0x208A, 0x51DA, 0x7FFF, 0x3914}
+
+temp = 0
 
 --To fit everything in 1 file, I must unfortunately clog this file with a lot of sprite data. Luckily, this does not lag the game. It is just hard to read.
 --Also, if you are looking at this, then I am sorry. Truly      -TheHunterManX
@@ -278,7 +291,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 	--CHANGE 100746752 = 190th tile = 2608
 	--Because the actual data doesn't start until 06013850, we will skip 50 hexbytes, or 80 decibytes
 	local ActualAddress = (100746752 - (StartAddressNo * 1280)) + 80
-	if ScreenData ~= 0 then
+    if ScreenData ~= 0 then
 	--Firered Male Sprite
 	if SpriteNo == 0 then
 		if SpriteID == 1 then
@@ -17556,14 +17569,47 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 		end
 	elseif SpriteNo == 3 then
         --Pokeball
+        
         SpriteTempVar0 = ActualAddress
         for i = 1, #ItemBallSprite do
             emu:write32(SpriteTempVar0, ItemBallSprite[i])
             SpriteTempVar0 = SpriteTempVar0 + 4
         end
+        temp = emu:read8(PalIndexAddress)
+        temp = temp & 0x0F
+        temp = temp | (0x10*(12+StartAddressNo))
+        emu:write8(PalIndexAddress, temp)
+        
+        SpriteTempVar0 = PalAddress
+        for i = 1, #ItemBallPal do
+            emu:write16(SpriteTempVar0, ItemBallPal[i])
+            SpriteTempVar0 = SpriteTempVar0 + 2
+        end
     end
 	end
 end
+
+function SetSprite(playerNo, spriteAdrs, sprite, palette) {
+    local PalIndexAddress = (0x30034D8 - 0x8*(playerNo-1)) + 0x5
+    --Object palettes
+    local PalAddress = 0x20377f8 + 32*(StartAddressNo+12)
+    
+    SpriteTempVar0 = spriteAdrs
+    for i = 1, #sprite do
+        emu:write32(SpriteTempVar0, sprite[i])
+        SpriteTempVar0 = SpriteTempVar0 + 4
+    end
+    temp = emu:read8(PalIndexAddress)
+    temp = temp & 0x0F
+    temp = temp | (0x10*(12+playerNo))
+    emu:write8(PalIndexAddress, temp)
+    
+    SpriteTempVar0 = PalAddress
+    for i = 1, #palette do
+        emu:write16(SpriteTempVar0, palette[i])
+        SpriteTempVar0 = SpriteTempVar0 + 2
+    end
+}
 
 function GetPokemonTeam()
 	local PokemonTeamAddress = 0
@@ -20113,10 +20159,10 @@ function HandleSprites()
 		PlayerChar = i - 1
 		if PlayerID ~= i and PlayerIDNick[i] ~= "None" then
 			--Hiding
-            if PlayerExtra3[i] > 2 then createChars(PlayerChar, 0, PlayerExtra3[i])
+            if PlayerExtra3[i] > 2 then PlayerExtra2[i] = PlayerExtra3[i] end
                 
             --Facing down
-			elseif PlayerExtra1[i] == 1 then createChars(PlayerChar,3,PlayerExtra2[i]) CurrentFacingDirection[i] = 4 Facing2[i] = 0 AnimatePlayerMovement(i, 251)
+			if PlayerExtra1[i] == 1 then createChars(PlayerChar,3,PlayerExtra2[i]) CurrentFacingDirection[i] = 4 Facing2[i] = 0 AnimatePlayerMovement(i, 251)
 			
 			--Facing up
 			elseif PlayerExtra1[i] == 2 then createChars(PlayerChar,2,PlayerExtra2[i]) CurrentFacingDirection[i] = 3 Facing2[i] = 0 AnimatePlayerMovement(i, 252)
@@ -20391,7 +20437,7 @@ function DrawPlayer(PlayerNo)
 		local SpriteNo4 = SpriteNo1 + 16
 		if GameID == "BPR1" or GameID == "BPR2" then
 			--Addresses for Firered
-			Player1Address = 50345200 - ((PlayerNo - 1) * 24)
+			Player1Address = 0x30034F0 - ((PlayerNo - 1) * 24)
 			PlayerYAddress = Player1Address
 			PlayerXAddress = PlayerYAddress + 2
 			PlayerFaceAddress = PlayerYAddress + 3
@@ -20402,7 +20448,7 @@ function DrawPlayer(PlayerNo)
 			PlayerExtra4Address = PlayerYAddress + 7
 		elseif GameID == "BPG1" or GameID == "BPG2" then
 			--Addresses for Leafgreen
-			Player1Address = 50345200 - ((PlayerNo - 1) * 24)
+			Player1Address = 0x30034F0 - ((PlayerNo - 1) * 24)
 			PlayerYAddress = Player1Address
 			PlayerXAddress = PlayerYAddress + 2
 			PlayerFaceAddress = PlayerYAddress + 3
@@ -20732,7 +20778,7 @@ function ErasePlayer(PlayerNo)
 		local u32 PlayerExtra4Address = 0
 		if GameID == "BPR1" or GameID == "BPR2" then
 			--Addresses for Firered
-			Player1Address = 50345200 - ((PlayerNo - 1) * 24)
+			Player1Address = 0x30034F0 - ((PlayerNo - 1) * 24)
 			PlayerYAddress = Player1Address
 			PlayerXAddress = PlayerYAddress + 2
 			PlayerFaceAddress = PlayerYAddress + 3
@@ -20743,7 +20789,7 @@ function ErasePlayer(PlayerNo)
 			PlayerExtra4Address = PlayerYAddress + 7
 		elseif GameID == "BPG1" or GameID == "BPG2" then
 			--Addresses for Leafgreen
-			Player1Address = 50345200 - ((PlayerNo - 1) * 24)
+			Player1Address = 0x30034F0 - ((PlayerNo - 1) * 24)
 			PlayerYAddress = Player1Address
 			PlayerXAddress = PlayerYAddress + 2
 			PlayerFaceAddress = PlayerYAddress + 3
@@ -21128,6 +21174,7 @@ function ReceiveData(Clientell)
 								FutureY[RECEIVEDID] = ReceiveDataSmall[8]
 								PlayerExtra1[RECEIVEDID] = ReceiveDataSmall[10]
 								PlayerExtra2[RECEIVEDID] = ReceiveDataSmall[11]
+                                console:log(PlayerExtra2[RECEIVEDID])
 								PlayerExtra3[RECEIVEDID] = ReceiveDataSmall[12]
 								PlayerExtra4[RECEIVEDID] = ReceiveDataSmall[13]
 								StartX[RECEIVEDID] = ReceiveDataSmall[18]
