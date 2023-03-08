@@ -258,9 +258,9 @@ DittoSprite = {0, 0, 0, 0, 0, 0,
                0, 0, 0, 0, 0, 0x01100000, 0x12210000, 0x22221000,   
                0, 0, 0, 0, 0, 0x110, 0x1221, 0x12222,
                0x23221000, 0x22222300, 0x33232100, 0x22223430, 0x22244430, 0x44444410, 0x44441100, 0x11110000,
-               0x12232, 0x122222, 0x123233, 0x3432222, 0x3444222, 0x1444444, 0x114444, 0x1111               }
+               0x12232, 0x322222, 0x123233, 0x3432222, 0x3444222, 0x1444444, 0x114444, 0x1111               }
                
-DittoPal = {0, 0x208A, 0x51DA, 0x7FFF, 0x3914}
+DittoPal = {0, 0x208A, 0x51DA, 0, 0x3914}
 
 temp = 0
 
@@ -20612,7 +20612,10 @@ function DrawPlayer(PlayerNo)
 				emu:write8(PlayerYAddress, FinalMapY)
 				emu:write8(PlayerFaceAddress, FacingTemp)
 				emu:write8(PlayerSpriteAddress, 128)
-				emu:write16(PlayerExtra1Address, SpriteNo1)
+                temp = emu:read16(PlayerExtra1Address)
+                temp = temp & 0xFF00
+                temp = temp | (SpriteNo1)
+				emu:write16(PlayerExtra1Address, temp)
 				emu:write8(PlayerExtra3Address, 0)
 				emu:write8(PlayerExtra4Address, 0)
 				--Surfing char
