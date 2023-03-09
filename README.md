@@ -1,7 +1,16 @@
-# GBA-PK-multiplayer
+# GBA-PK-multiplayer-Prop Hunt
 
-This is a free mod that will in the future support interactions between all of the 3rd generation pokemon games. Alpha 3 currently allows 4 players to see and trade with each other in the game of Firered or Leafgreen. Updates and more information can be found on youtube, patreon or pokecommunity.
+Made by Adrienn Tindall using ThHunterManX's work.
 
+Currently allows 4 players to see and trade with each other in the game of Firered or Leafgreen. Updates about the base mod (GBA-PK-multiplayer) and more information can be found on youtube, patreon or pokecommunity.
+
+Use the Hide("object") command to hide! Colliding with someone not hidden will reveal you.
+
+List of currently avaliable objects:
+Item Ball ("item")
+Ditto Doll ("ditto")
+
+Check out TheHunterManX's links here:
 
 Patreon: https://www.patreon.com/user?u=81688818
 
