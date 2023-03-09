@@ -58,6 +58,7 @@ local DifferentMapX = {0,0,0,0,0,0,0,0}
 local DifferentMapY = {0,0,0,0,0,0,0,0}
 local RelativeX = {0,0,0,0,0,0,0,0}
 local RelativeY = {0,0,0,0,0,0,0,0}
+local PlayerRevealFlag = {0,0,0,0,0,0,0,0}
 local CurrentFacingDirection = {0,0,0,0,0,0,0,0}
 local FutureFacingDirection = {0,0,0,0,0,0,0,0}
 local CurrentMapID = {0,0,0,0,0,0,0,0}
@@ -19463,7 +19464,6 @@ function GetPosition()
 --	console:log("X: " .. CurrentX[PlayerID])
 	--Male Firered Sprite from 1.0, 1.1, and leafgreen
     if PlayerExtra3[PlayerID] > 2 then
-        --PlayerExtra1[PlayerID] = 0
         PlayerExtra2[PlayerID] = PlayerExtra3[PlayerID]
 	elseif ((Bike == 160 or Bike == 272) or (Bike == 128 or Bike == 240)) then
 		PlayerExtra2[PlayerID] = 0
@@ -19570,7 +19570,7 @@ function GetPosition()
 			if PlayerDirection == 1 then PlayerExtra1[PlayerID] = 19 PlayerFacing = 2 end
 			if PlayerDirection == 2 then PlayerExtra1[PlayerID] = 20 PlayerFacing = 3 end
 		end
-	elseif PlayerExtra3[PlayerID] == 0 then
+	else
 		--Standing still
 		if PlayerFacing == 0 then PlayerExtra1[PlayerID] = 1 PlayerDirection = 4 end
 		if PlayerFacing == 1 then PlayerExtra1[PlayerID] = 2 PlayerDirection = 3 end
@@ -20918,6 +20918,9 @@ function ReceiveData()
 							--StartY
 							ReceiveDataSmall[19] = string.sub(ReadData,59,62)
 							ReceiveDataSmall[19] = tonumber(ReceiveDataSmall[19])
+                            --PlayerRevealFlag
+                            ReceiveDataSmall[20] = string.sub(ReadData,63,63)
+                            ReceiveDataSmall[20] = tonumber(ReceiveDataSmall[20])
 							--Between 53 and 63 there are 11 bytes of filler.
 							
 				--		console:log("X: " .. ReceiveDataSmall[6] .. " Y: " .. ReceiveDataSmall[7] .. " Extra 1: " .. ReceiveDataSmall[9] .. " Extra 2: " .. ReceiveDataSmall[10] .. " MapID: " .. ReceiveDataSmall[13] .. " ConnectType: " .. ReceiveDataSmall[15])
@@ -21060,6 +21063,7 @@ function ReceiveData()
 						end
 						
 						if ReceiveDataSmall[5] == "SPOS" then
+                                    --console:log("SPOS")
 									PlayerIDNick[RECEIVEDID] = ReceiveDataSmall[2]
 									if CurrentMapID[RECEIVEDID] ~= ReceiveDataSmall[14] then
 										PlayerAnimationFrame[RECEIVEDID] = 0
@@ -21083,6 +21087,17 @@ function ReceiveData()
 									PlayerExtra4[RECEIVEDID] = ReceiveDataSmall[13]
 									StartX[RECEIVEDID] = ReceiveDataSmall[18]
 									StartY[RECEIVEDID] = ReceiveDataSmall[19]
+                                    PlayerRevealFlag[RECEIVEDID] = ReceiveDataSmall[20]
+                                    --console:log("Reveal Flag " .. PlayerRevealFlag[RECEIVEDID] .. " PlayerID " .. PlayerID .. " " .. (1 << PlayerID) .. " PlayerExtra3 " .. PlayerExtra3[PlayerID])
+                                    
+                                    if PlayerExtra3[PlayerID] > 2 and (PlayerRevealFlag[RECEIVEDID] & (1 << PlayerID)) ~= 0 then
+                                        PlayerExtra3[PlayerID] = 0
+                                        PlayerRevealFlag[PlayerID] = 0;
+                                        console:log("Caught!")
+                                    elseif RECEIVEDID & (1 << PlayerID) then
+                                        PlayerRevealFlag[PlayerID] = 0 
+                                    end
+                                    
 						end
 		--			if TempVar2 == 0 then ConsoleForText:print("Test 4") end
 			--		else

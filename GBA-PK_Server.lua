@@ -67,6 +67,7 @@ local PlayerExtra1 = {0,0,0,0,0,0,0,0}
 local PlayerExtra2 = {0,0,0,0,0,0,0,0}
 local PlayerExtra3 = {0,0,0,0,0,0,0,0}
 local PlayerExtra4 = {0,0,0,0,0,0,0,0}
+local PlayerRevealFlag = {0, 0, 0, 0, 0, 0, 0, 0}
 local PlayerVis = {1,0,0,0,0,0,0,0}
 local Facing2 = {0,0,0,0,0,0,0,0}
 local MapID = {0,0,0,0,0,0,0,0}
@@ -244,6 +245,8 @@ FRLGMaleSpriteLeft = {0x88880000, 0xBBBC8000, 0xBBBBC800,
                       0         , 0         , 0x8888    , 
                       0x8CBBB   , 0x8BBBB   , 0x8CBBBB}
 
+FRLGPlayerPal      = {0, 0x21F5, 0x4B1F, 0x3A5B, 0x210F, 0x6908, 0x3CE7, 0x628E, 0x14AD, 0x7FBD, 0x6AD6, 0x25BF, 0x1CF8, 0x2F7F, 0x1E77, 0x0000}
+
 ItemBallSprite     = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
                       0x88000000, 0xCC800000, 0xCBC80000, 0xCC4C8000, 0xF44CF000, 0x1F4F5000, 0x1FF95000, 0xF9950000, 
                       0x88, 0x8CC, 0x8C44, 0x8C444, 0xFC44F, 0x5F4F1, 0x59FF1, 0x599F,
@@ -286,6 +289,8 @@ function SetSprite(playerNo, spriteAdrs, sprite, palette)
     end
 end
 
+EmptyArr = {}
+
 --To fit everything in 1 file, I must unfortunately clog this file with a lot of sprite data. Luckily, this does not lag the game. It is just hard to read.
 --Also, if you are looking at this, then I am sorry. Truly      -TheHunterManX
 --IsBiking is temporary and is used for drawing the extra symbol
@@ -316,6 +321,7 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
     if ScreenData ~= 0 then
 	--Firered Male Sprite
 	if SpriteNo == 0 then
+        SetSprite(StartAddressNo, ActualAddress, EmptyArr, FRLGPlayerPal)
 		if SpriteID == 1 then
 			--Side Left
 			SpriteTempVar0 = ActualAddress
@@ -8883,7 +8889,8 @@ function createChars(StartAddressNo, SpriteID, SpriteNo, IsBiking)
 			end
 	--Female Sprite
 	elseif SpriteNo == 1 then
-		if SpriteID == 1 then
+		SetSprite(StartAddressNo, ActualAddress, EmptyArr, FRLGPlayerPal)
+        if SpriteID == 1 then
 			--Side Left
 		SpriteTempVar0 = ActualAddress 
  		SpriteTempVar1 = 1717960704
@@ -20375,6 +20382,11 @@ function CalculateRelativePositions()
 			--Player X is the X the player sprite has
 			RelativeX[i] = AnimationX[i] + CameraX + TempX2
 			RelativeY[i] = AnimationY[i] + CameraY + TempY2
+            --console:log("" .. PlayerExtra2[i])
+            if PlayerExtra2[i] > 2 and (RelativeX[i]*RelativeX[i] + RelativeY[i]*RelativeY[i]) <= 64 then
+                PlayerRevealFlag[PlayerID] = PlayerRevealFlag[i] | (1 << i)
+                --console:log("" .. PlayerRevealFlag[PlayerID])
+            end
 			--console:log("X: " .. RelativeX[i] .. " " .. CurrentX[i] .. " " .. PlayerMapX .. " " .. DifferentMapX[i])
 			--console:log("Y: " .. RelativeY[i] .. " " .. AnimationY[i] .. " " .. CameraY .. " " .. TempY)
 		end
@@ -21284,7 +21296,7 @@ end
 --Send Data to clients
 function CreatePackett(RequestTemp, PackettTemp)
 	local FillerStuff = "F"
-	Packett = GameID .. Nickname .. PlayerID2 .. PlayerReceiveID .. RequestTemp .. PackettTemp .. CurrentX[PlayerID] .. CurrentY[PlayerID] .. Facing2[PlayerID] .. PlayerExtra1[PlayerID] .. PlayerExtra2[PlayerID] .. PlayerExtra3[PlayerID] .. PlayerExtra4[PlayerID] .. PlayerMapID .. PlayerMapIDPrev .. PlayerMapEntranceType .. StartX[PlayerID] .. StartY[PlayerID] .. FillerStuff .. "U"
+	Packett = GameID .. Nickname .. PlayerID2 .. PlayerReceiveID .. RequestTemp .. PackettTemp .. CurrentX[PlayerID] .. CurrentY[PlayerID] .. Facing2[PlayerID] .. PlayerExtra1[PlayerID] .. PlayerExtra2[PlayerID] .. PlayerExtra3[PlayerID] .. PlayerExtra4[PlayerID] .. PlayerMapID .. PlayerMapIDPrev .. PlayerMapEntranceType .. StartX[PlayerID] .. StartY[PlayerID] .. PlayerRevealFlag[PlayerID] .. "U"
 end
 
 function SendData(DataType, Socket, ExtraData)
