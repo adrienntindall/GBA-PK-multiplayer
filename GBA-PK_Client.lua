@@ -62,7 +62,7 @@ local CurrentMapID = {0,0,0,0,0,0,0,0}
 local PreviousMapID = {0,0,0,0,0,0,0,0}
 local MapEntranceType = {1,1,1,1,1,1,1,1}
 --local PlayerExtra1 = {0,0,0,0,0,0,0,0}
-local PlayerExtra2 = {0,0,0,0,0,0,0,0}
+---local PlayerExtra2 = {0,0,0,0,0,0,0,0}
 --local PlayerExtra3 = {0,0,0,0,0,0,0,0}
 local PlayerExtra4 = {0,0,0,0,0,0,0,0}
 local PlayerVis = {1,0,0,0,0,0,0,0}
@@ -2997,7 +2997,7 @@ function CalculateRelativePositions()
 			RelativeX[i] = AnimationX[i] + CameraX + TempX2
 			RelativeY[i] = AnimationY[i] + CameraY + TempY2
             
-            if PlayerExtra2[i] > 2 and (RelativeX[i]*RelativeX[i] + RelativeY[i]*RelativeY[i]) <= 64 then
+            if PlayerExtra3[PlayerID] < 2 and PlayerExtra2[i] > 2 and (RelativeX[i]*RelativeX[i] + RelativeY[i]*RelativeY[i]) <= 64 then
                 PlayerRevealFlag[PlayerID] = PlayerRevealFlag[i] | (1 << i)
                 console:log("" .. PlayerRevealFlag[PlayerID])
             end
@@ -3075,6 +3075,8 @@ function DrawPlayer(PlayerNo)
 			PlayerExtra4Address = PlayerYAddress + 7
 		end
 		
+        --console:log("Drawing player " .. PlayerNo .. " at address " .. Player1Address)
+        
 		--Screen size (take into account movement)
 		local MinX = -16
 		local MaxX = 240
@@ -3120,7 +3122,7 @@ function DrawPlayer(PlayerNo)
 				emu:write8(PlayerXAddress, 48)
 				emu:write8(PlayerFaceAddress, 1)
 				emu:write8(PlayerSpriteAddress, 0)
-				emu:write16(PlayerExtra1Address, 12)
+				emu:write16(PlayerExtra1Address, 12 | (emu:read8(PlayerExtra2Address) & 0xF))
 				emu:write8(PlayerExtra3Address, 0)
 				emu:write8(PlayerExtra4Address, 1)
 				--Add fighting symbol if in battle
@@ -3143,7 +3145,7 @@ function DrawPlayer(PlayerNo)
 						emu:write8(PlayerXAddress, SymbolX)
 						emu:write8(PlayerFaceAddress, 64)
 						emu:write8(PlayerSpriteAddress, 0)
-						emu:write16(PlayerExtra1Address, SpriteNo4)
+						emu:write16(PlayerExtra1Address, SpriteNo4 | (emu:read8(PlayerExtra2Address) & 0xF))
 						emu:write8(PlayerExtra3Address, 0)
 						emu:write8(PlayerExtra4Address, 1)
 					else
@@ -3159,7 +3161,7 @@ function DrawPlayer(PlayerNo)
 						emu:write8(PlayerXAddress, 48)
 						emu:write8(PlayerFaceAddress, 1)
 						emu:write8(PlayerSpriteAddress, 0)
-						emu:write16(PlayerExtra1Address, 12)
+						emu:write16(PlayerExtra1Address, 12 | (emu:read8(PlayerExtra2Address) & 0xF))
 						emu:write8(PlayerExtra3Address, 0)
 						emu:write8(PlayerExtra4Address, 1)
 					end
@@ -3194,7 +3196,7 @@ function DrawPlayer(PlayerNo)
 					emu:write8(PlayerXAddress, SymbolX)
 					emu:write8(PlayerFaceAddress, 64)
 					emu:write8(PlayerSpriteAddress, 0)
-					emu:write16(PlayerExtra1Address, SpriteNo3)
+					emu:write16(PlayerExtra1Address, SpriteNo3 | (emu:read8(PlayerExtra2Address) & 0xF))
 					emu:write8(PlayerExtra3Address, 0)
 					emu:write8(PlayerExtra4Address, 1)
 				else
@@ -3210,7 +3212,7 @@ function DrawPlayer(PlayerNo)
 					emu:write8(PlayerXAddress, 48)
 					emu:write8(PlayerFaceAddress, 1)
 					emu:write8(PlayerSpriteAddress, 0)
-					emu:write16(PlayerExtra1Address, 12)
+					emu:write16(PlayerExtra1Address, 12 | (emu:read8(PlayerExtra2Address) & 0xF))
 					emu:write8(PlayerExtra3Address, 0)
 					emu:write8(PlayerExtra4Address, 1)
 				end
@@ -3230,7 +3232,7 @@ function DrawPlayer(PlayerNo)
 				emu:write8(PlayerYAddress, FinalMapY)
 				emu:write8(PlayerFaceAddress, FacingTemp)
 				emu:write8(PlayerSpriteAddress, 0)
-				emu:write16(PlayerExtra1Address, SpriteNo2)
+				emu:write16(PlayerExtra1Address, SpriteNo2 | (emu:read8(PlayerExtra2Address) & 0xF))
 				emu:write8(PlayerExtra3Address, 0)
 				emu:write8(PlayerExtra4Address, 0)
 				else
@@ -3240,7 +3242,10 @@ function DrawPlayer(PlayerNo)
 				emu:write8(PlayerYAddress, FinalMapY)
 				emu:write8(PlayerFaceAddress, FacingTemp)
 				emu:write8(PlayerSpriteAddress, 128)
-				emu:write16(PlayerExtra1Address, SpriteNo1 | (emu:read8(PlayerExtra2Address) & 0xF))
+                temp = emu:read16(PlayerExtra1Address)
+                temp = temp & 0xFF00
+                temp = temp | (SpriteNo1)
+				emu:write16(PlayerExtra1Address, temp)
 				emu:write8(PlayerExtra3Address, 0)
 				emu:write8(PlayerExtra4Address, 0)
 				--Surfing char
@@ -3280,7 +3285,7 @@ function DrawPlayer(PlayerNo)
 						emu:write8(PlayerXAddress, SymbolX)
 						emu:write8(PlayerFaceAddress, 64)
 						emu:write8(PlayerSpriteAddress, 0)
-						emu:write16(PlayerExtra1Address, SpriteNo3)
+						emu:write16(PlayerExtra1Address, SpriteNo3 | (emu:read8(PlayerExtra2Address) & 0xF))
 						emu:write8(PlayerExtra3Address, 0)
 						emu:write8(PlayerExtra4Address, 1)
 					else
@@ -3296,7 +3301,7 @@ function DrawPlayer(PlayerNo)
 						emu:write8(PlayerXAddress, 48)
 						emu:write8(PlayerFaceAddress, 1)
 						emu:write8(PlayerSpriteAddress, 0)
-						emu:write16(PlayerExtra1Address, 12)
+						emu:write16(PlayerExtra1Address, 12 | (emu:read8(PlayerExtra2Address) & 0xF))
 						emu:write8(PlayerExtra3Address, 0)
 						emu:write8(PlayerExtra4Address, 1)
 					end
@@ -3323,7 +3328,7 @@ function DrawPlayer(PlayerNo)
 					emu:write8(PlayerXAddress, 48)
 					emu:write8(PlayerFaceAddress, 1)
 					emu:write8(PlayerSpriteAddress, 0)
-					emu:write16(PlayerExtra1Address, 12)
+					emu:write16(PlayerExtra1Address, 12 | (emu:read8(PlayerExtra2Address) & 0xF))
 					emu:write8(PlayerExtra3Address, 0)
 					emu:write8(PlayerExtra4Address, 1)
 					--Extra Char
@@ -3339,7 +3344,7 @@ function DrawPlayer(PlayerNo)
 					emu:write8(PlayerXAddress, 48)
 					emu:write8(PlayerFaceAddress, 1)
 					emu:write8(PlayerSpriteAddress, 0)
-					emu:write16(PlayerExtra1Address, 12)
+					emu:write16(PlayerExtra1Address, 12 | (emu:read8(PlayerExtra2Address) & 0xF))
 					emu:write8(PlayerExtra3Address, 0)
 					emu:write8(PlayerExtra4Address, 1)
 			end
@@ -3397,7 +3402,7 @@ function ErasePlayer(PlayerNo)
 		local u32 PlayerExtra4Address = 0
 		if GameID == "BPR1" or GameID == "BPR2" then
 			--Addresses for Firered
-			Player1Address = 50345200 - ((PlayerNo - 1) * 24)
+			Player1Address = 0x30034F0 - ((PlayerNo - 1) * 0x18)
 			PlayerYAddress = Player1Address
 			PlayerXAddress = PlayerYAddress + 2
 			PlayerFaceAddress = PlayerYAddress + 3
@@ -3408,7 +3413,7 @@ function ErasePlayer(PlayerNo)
 			PlayerExtra4Address = PlayerYAddress + 7
 		elseif GameID == "BPG1" or GameID == "BPG2" then
 			--Addresses for Leafgreen
-			Player1Address = 50345200 - ((PlayerNo - 1) * 24)
+			Player1Address = 0x30034F0 - ((PlayerNo - 1) * 0x18)
 			PlayerYAddress = Player1Address
 			PlayerXAddress = PlayerYAddress + 2
 			PlayerFaceAddress = PlayerYAddress + 3
@@ -3523,7 +3528,7 @@ function ReceiveData()
 	if EnableScript == true then
 			--If host has package sent
 			if SocketMain:hasdata() then
-				local ReadData = SocketMain:receive(64)
+				local ReadData = SocketMain:receive(67)
 				if ReadData ~= nil then
 					--Encryption key
 					ReceiveDataSmall[17] = "A"
@@ -3534,7 +3539,7 @@ function ReceiveData()
 					ReceiveDataSmall[4] = tonumber(string.sub(ReadData,13,16))
 					PlayerReceiveID = ReceiveDataSmall[4]
 					ReceiveDataSmall[5] = string.sub(ReadData,17,20)
-					ReceiveDataSmall[17] = string.sub(ReadData,64,64)
+					ReceiveDataSmall[17] = string.sub(ReadData,67,67)
 				--	if ReceiveDataSmall[4] == "BATT" then ConsoleForText:print("Valid package! Contents: " .. ReadData) end
 				--	ConsoleForText:print("Type: " .. ReceiveDataSmall[4])
 					if ReceiveDataSmall[17] == "U" and ReceiveDataSmall[5] == "SLNK" then
@@ -3605,28 +3610,28 @@ function ReceiveData()
 							ReceiveDataSmall[11] = string.sub(ReadData,39,39)
 							ReceiveDataSmall[11] = tonumber(ReceiveDataSmall[11])
 							--Extra 3
-							ReceiveDataSmall[12] = string.sub(ReadData,40,40)
+							ReceiveDataSmall[12] = string.sub(ReadData,40,41)
 							ReceiveDataSmall[12] = tonumber(ReceiveDataSmall[12])
 							--Extra 4
-							ReceiveDataSmall[13] = string.sub(ReadData,41,41)
+							ReceiveDataSmall[13] = string.sub(ReadData,42,42)
 							ReceiveDataSmall[13] = tonumber(ReceiveDataSmall[13])
 							--MapID
-							ReceiveDataSmall[14] = string.sub(ReadData,42,47)
+							ReceiveDataSmall[14] = string.sub(ReadData,43,48)
 							ReceiveDataSmall[14] = tonumber(ReceiveDataSmall[14])
 							--PreviousMapID
-							ReceiveDataSmall[15] = string.sub(ReadData,48,53)
+							ReceiveDataSmall[15] = string.sub(ReadData,49,54)
 							ReceiveDataSmall[15] = tonumber(ReceiveDataSmall[15])
 							--MapConnectionType
-							ReceiveDataSmall[16] = string.sub(ReadData,54,54)
+							ReceiveDataSmall[16] = string.sub(ReadData,55,55)
 							ReceiveDataSmall[16] = tonumber(ReceiveDataSmall[16])
 							--StartX
-							ReceiveDataSmall[18] = string.sub(ReadData,55,58)
+							ReceiveDataSmall[18] = string.sub(ReadData,56,59)
 							ReceiveDataSmall[18] = tonumber(ReceiveDataSmall[18])
 							--StartY
-							ReceiveDataSmall[19] = string.sub(ReadData,59,62)
+							ReceiveDataSmall[19] = string.sub(ReadData,60,63)
 							ReceiveDataSmall[19] = tonumber(ReceiveDataSmall[19])
                             --PlayerRevealFlag
-                            ReceiveDataSmall[20] = string.sub(ReadData,63,63)
+                            ReceiveDataSmall[20] = string.sub(ReadData,64,66)
                             ReceiveDataSmall[20] = tonumber(ReceiveDataSmall[20])
 							--Between 53 and 63 there are 11 bytes of filler.
 							
@@ -3860,7 +3865,7 @@ end
 --Send Data to clients
 function CreatePackett(RequestTemp, PackettTemp)
 	local FillerStuff = "F"
-	Packett = GameID .. Nickname .. PlayerID2 .. PlayerReceiveID .. RequestTemp .. PackettTemp .. CurrentX[PlayerID] .. CurrentY[PlayerID] .. Facing2[PlayerID] .. PlayerExtra1[PlayerID] .. PlayerExtra2[PlayerID] .. PlayerExtra3[PlayerID] .. PlayerExtra4[PlayerID] .. PlayerMapID .. PlayerMapIDPrev .. PlayerMapEntranceType .. StartX[PlayerID] .. StartY[PlayerID] .. PlayerRevealFlag[PlayerID] .. "U"
+    Packett = GameID .. Nickname .. PlayerID2 .. PlayerReceiveID .. RequestTemp .. PackettTemp .. CurrentX[PlayerID] .. CurrentY[PlayerID] .. Facing2[PlayerID] .. PlayerExtra1[PlayerID] .. PlayerExtra2[PlayerID] .. math.floor(PlayerExtra3[PlayerID]/10) .. (PlayerExtra3[PlayerID] % 10) .. PlayerExtra4[PlayerID] .. PlayerMapID .. PlayerMapIDPrev .. PlayerMapEntranceType .. StartX[PlayerID] .. StartY[PlayerID] .. math.floor(PlayerRevealFlag[PlayerID]/100) .. math.floor((PlayerRevealFlag[PlayerID] % 100)/10) .. (PlayerRevealFlag[PlayerID] % 10) .. "U"
 end
 
 function SendData(DataType, ExtraData)

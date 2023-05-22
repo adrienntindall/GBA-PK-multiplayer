@@ -78,63 +78,8 @@ local FRLGFemaleSpriteSurfSitDown = {0x0, 0x0, 0x0, 0x0, 0x0, 0x66660000, 0x999a
 
 local FRLGPlayerPal      = {0, 0x21F5, 0x4B1F, 0x3A5B, 0x210F, 0x6908, 0x3CE7, 0x628E, 0x14AD, 0x7FBD, 0x6AD6, 0x25BF, 0x1CF8, 0x2F7F, 0x1E77, 0x0000}
 
-local ItemBallSprite     = {0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,
-                            0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,
-                            0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0xaa000000,0x88a00000,0x8e8a0000,
-                            0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x000000aa,0x00000a88,0x0000a899,
-                            0x8898a000,0xf998f000,0xbf9fd000,0xbffed000,0xfeed0000,0xebd00000,0xdd000000,0x00000000,
-                            0x000a8999,0x000f899f,0x000df9fb,0x000dbffb,0x0000deef,0x00000dbe,0x000000dd,0x00000000}
-                            
---16 bit with bit 15 unused, xBBBBBGGGGGRRRRR in binary
-local ItemBallPal        = {0x530e, 0x5b5f, 0x4afe, 0x3a5b, 0x210f, 0x32b9, 0x21cf, 0xce7, 0x25bc, 0x14f2, 0x4a, 0x6b18, 0x4a31, 0x2d29, 0x7fff, 0x0}
-
-local DittoSprite = {0, 0, 0, 0, 0, 0,
-               0, 0, 0, 0, 0, 0,
-               0, 0, 0, 0, 0, 0x01100000, 0x12210000, 0x22221000,   
-               0, 0, 0, 0, 0, 0x110, 0x1221, 0x12222,
-               0x23221000, 0x22222300, 0x33232100, 0x22223430, 0x22244430, 0x44444410, 0x44441100, 0x11110000,
-               0x12232, 0x322222, 0x123233, 0x3432222, 0x3444222, 0x1444444, 0x114444, 0x1111               }
-               
-local DittoPal = {0, 0x208A, 0x51DA, 0, 0x3914}
-
-local DiglettSprite = {0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,
-                        0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,
-                        0x00000000,0x11000000,0x33110000,0x33331000,0x33131000,0x33333100,0x11133100,0x11133100,
-                        0x00000000,0x00000001,0x00000113,0x00001333,0x00001331,0x00013333,0x00013333,0x00013333,
-                        0x33333100,0x33333100,0x11311100,0x22122210,0x11111100,0x00000000,0x00000000,0x00000000,
-                        0x00013333,0x00013333,0x00111133,0x01122111,0x00111101,0x00000000,0x00000000,0x00000000}
-
-local DiglettPal = {0x33f0, 0x0, 0x2a7f, 0x4ff, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}
-
-local SwabluPal = {0x2be3, 0x28c2, 0x7b12, 0x7fff, 0x5e2b, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}
-
-local SwabluSprite = {0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,
-                    0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,
-                    0x00000000,0x00000000,0x00111000,0x01224100,0x12411100,0x11100000,0x22410000,0x22221000,
-                    0x00000000,0x00000000,0x00011100,0x00142210,0x00111421,0x00000111,0x00001422,0x00012222,
-                    0x21224100,0x32224310,0x33244331,0x24444331,0x43343321,0x33332221,0x23322110,0x11111000,
-                    0x00142212,0x01342223,0x13344233,0x13344442,0x12334334,0x12233333,0x01122332,0x00011111}
-
-local BonsaiPal = {0x33f0, 0x1d6d, 0x3256, 0x39ce, 0x294a, 0x25d2, 0xd20, 0x1983, 0x29e6, 0x2a6b, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}
-
-local BonsaiSprite = {0x00000000,0x00000000,0x87000000,0x00000000,0x00000000,0x88700000,
-                    0x00000000,0x00000000,0x00000000,0x00990000,0x00000000,0x00000008,
-                    0x86000000,0x60000000,0x00000077,0x00079887,0x69997866,0x98876898,0x86577887,0x55677760,
-                    0x00008987,0x00998878,0x00878760,0x00760000,0x00980000,0x00800068,0x00000687,0x6f63026666,
-                    0x67776000,0x66200002,0x20000234,0x00023334,0x02333333,0x22222222,0x11111111,0x11111100,
-                    0x474b666655,0x3b53425556,0x500255244,0x6e69444320,0x5c73332000,0x6275200002,0x7263000111,0x433b001111}
-
-
-local ObjList = {
-    nil, nil,
-    {ItemBallSprite, ItemBallPal},
-    {DittoSprite, DittoPal},
-    {DiglettSprite, DiglettPal},
-    {SwabluSprite, SwabluPal}
-}
-
 function SetSprite(playerNo, spriteAdrs, sprite, palette) 
-    local PalIndexAddress = (0x30034F0 - 0x8*playerNo) + 0x5
+    local PalIndexAddress = (0x30034F0 - 0x18*playerNo) + 0x5
     --Object palettes
     local PalAddress = 0x20377f8 + 0x20*(15-playerNo)
     
@@ -364,35 +309,35 @@ function createChars(StartAddressNo, SpriteID, SpriteNo)
 	elseif SpriteNo == 1 then
 		if SpriteID == 1 then
         --Side Left
-            SetSprite(StartAddressNo, ActualAddress - 20, FRLGMaleSurfDown1, FRLGPlayerPal)
+            SetSprite(StartAddressNo, ActualAddress, FRLGFemaleSpriteLeft, FRLGPlayerPal)
 		elseif SpriteID == 2 then
         --Side Up
-            SetSprite(StartAddressNo, ActualAddress - 20, FRLGMaleSurfDown1, FRLGPlayerPal)
+            SetSprite(StartAddressNo, ActualAddress, FRLGFemaleSpriteUp, FRLGPlayerPal)
         elseif SpriteID == 3 then
 		--Side Down
-            SetSprite(StartAddressNo, ActualAddress - 20, FRLGMaleSurfDown1, FRLGPlayerPal)
+            SetSprite(StartAddressNo, ActualAddress, FRLGFemaleSpriteDown, FRLGPlayerPal)
 		elseif SpriteID == 4 then
 		--Side Left Walk Cycle 1
-            SetSprite(StartAddressNo, ActualAddress - 20, FRLGMaleSurfDown1, FRLGPlayerPal)
+            SetSprite(StartAddressNo, ActualAddress, FRLGFemaleSpriteLeftWalk1, FRLGPlayerPal)
         elseif SpriteID == 5 then
 		--Side Left Walk Cycle 2
-            SetSprite(StartAddressNo, ActualAddress - 20, FRLGMaleSurfDown1, FRLGPlayerPal)
+            SetSprite(StartAddressNo, ActualAddress, FRLGFemaleSpriteLeftWalk2, FRLGPlayerPal)
         elseif SpriteID == 6 then
 		--Side Up Walk Cycle 1
-            SetSprite(StartAddressNo, ActualAddress - 20, FRLGMaleSurfDown1, FRLGPlayerPal)
+            SetSprite(StartAddressNo, ActualAddress, FRLGFemaleSpriteUpWalk1, FRLGPlayerPal)
 		elseif SpriteID == 7 then
 		--Side Up Walk Cycle 2
-            SetSprite(StartAddressNo, ActualAddress - 20, FRLGMaleSurfDown1, FRLGPlayerPal)
+            SetSprite(StartAddressNo, ActualAddress, FRLGFemaleSpriteUpWalk2, FRLGPlayerPal)
 		elseif SpriteID == 8 then
 		--Side Down Walk Cycle 1
-            SetSprite(StartAddressNo, ActualAddress - 20, FRLGMaleSurfDown1, FRLGPlayerPal)
+            SetSprite(StartAddressNo, ActualAddress, FRLGFemaleSpriteDownWalk1, FRLGPlayerPal)
 		elseif SpriteID == 9 then
 		--Side Down Walk Cycle 2
-            SetSprite(StartAddressNo, ActualAddress - 20, FRLGMaleSurfDown1, FRLGPlayerPal)
+            SetSprite(StartAddressNo, ActualAddress, FRLGFemaleSpriteDownWalk1, FRLGPlayerPal)
 		elseif SpriteID == 10 then
 		--Side Left Bike Facing
 		--Due to it being a 64x64, it requires far more space
-            SetSprite(StartAddressNo, ActualAddress - 20, FRLGMaleSurfDown1, FRLGPlayerPal)		elseif SpriteID == 11 then
+            SetSprite(StartAddressNo, ActualAddress - 20, FRLGMaleSurfDown1, FRLGPlayerPal)	
 		elseif SpriteID == 11 then
         --Side Up Bike Facing
             SetSprite(StartAddressNo, ActualAddress - 20, FRLGMaleSurfDown1, FRLGPlayerPal)

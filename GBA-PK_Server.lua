@@ -63,7 +63,7 @@ local CurrentMapID = {0,0,0,0,0,0,0,0}
 local PreviousMapID = {0,0,0,0,0,0,0,0}
 local MapEntranceType = {1,1,1,1,1,1,1,1}
 --local PlayerExtra1 = {0,0,0,0,0,0,0,0}
-local PlayerExtra2 = {0,0,0,0,0,0,0,0}
+---local PlayerExtra2 = {0,0,0,0,0,0,0,0}
 --local PlayerExtra3 = {0,0,0,0,0,0,0,0}
 local PlayerExtra4 = {0,0,0,0,0,0,0,0}
 local PlayerRevealFlag = {0, 0, 0, 0, 0, 0, 0, 0}
@@ -3011,7 +3011,7 @@ function CalculateRelativePositions()
 			RelativeX[i] = AnimationX[i] + CameraX + TempX2
 			RelativeY[i] = AnimationY[i] + CameraY + TempY2
             --console:log("" .. PlayerExtra2[i])
-            if PlayerExtra2[i] > 2 and (RelativeX[i]*RelativeX[i] + RelativeY[i]*RelativeY[i]) <= 64 then
+            if PlayerExtra3[PlayerID] < 2 and PlayerExtra2[i] > 2 and (RelativeX[i]*RelativeX[i] + RelativeY[i]*RelativeY[i]) <= 64 then
                 PlayerRevealFlag[PlayerID] = PlayerRevealFlag[i] | (1 << i)
                 --console:log("" .. PlayerRevealFlag[PlayerID])
             end
@@ -3411,7 +3411,7 @@ function ErasePlayer(PlayerNo)
 		local u32 PlayerExtra4Address = 0
 		if GameID == "BPR1" or GameID == "BPR2" then
 			--Addresses for Firered
-			Player1Address = 0x30034F0 - ((PlayerNo - 1) * 24)
+			Player1Address = 0x30034F0 - ((PlayerNo - 1) * 0x18)
 			PlayerYAddress = Player1Address
 			PlayerXAddress = PlayerYAddress + 2
 			PlayerFaceAddress = PlayerYAddress + 3
@@ -3422,7 +3422,7 @@ function ErasePlayer(PlayerNo)
 			PlayerExtra4Address = PlayerYAddress + 7
 		elseif GameID == "BPG1" or GameID == "BPG2" then
 			--Addresses for Leafgreen
-			Player1Address = 0x30034F0 - ((PlayerNo - 1) * 24)
+			Player1Address = 0x30034F0 - ((PlayerNo - 1) * 0x18)
 			PlayerYAddress = Player1Address
 			PlayerXAddress = PlayerYAddress + 2
 			PlayerFaceAddress = PlayerYAddress + 3
@@ -3560,7 +3560,7 @@ function ReceiveData(Clientell)
 			if EnableScript == true then
 			--Check if anybody wants to connect
 				if (Clientell:hasdata()) then
-				local ReadData = Clientell:receive(64)
+				local ReadData = Clientell:receive(67)
 			--	local StringLen = 0
 					
 				if ReadData ~= nil then
@@ -3574,7 +3574,7 @@ function ReceiveData(Clientell)
 					ReceiveDataSmall[4] = tonumber(string.sub(ReadData,13,16))
 					RECEIVEDID2 = ReceiveDataSmall[4] - 1000
 					ReceiveDataSmall[5] = string.sub(ReadData,17,20)
-					ReceiveDataSmall[17] = string.sub(ReadData,64,64)
+					ReceiveDataSmall[17] = string.sub(ReadData,67,67)
 				--	if ReceiveDataSmall[4] == "BATT" then ConsoleForText:print("Valid package! Contents: " .. ReadData) end
 				--	ConsoleForText:print("Type: " .. ReceiveDataSmall[4])
 				--	if ReceiveDataSmall[5] == "POKE" then console:log("Player " .. ReceiveDataSmall[4] .. " is being sent pokemon by " .. ReceiveDataSmall[3]) end
@@ -3649,29 +3649,29 @@ function ReceiveData(Clientell)
 							ReceiveDataSmall[11] = string.sub(ReadData,39,39)
 							ReceiveDataSmall[11] = tonumber(ReceiveDataSmall[11])
 							--Extra 3
-							ReceiveDataSmall[12] = string.sub(ReadData,40,40)
+							ReceiveDataSmall[12] = string.sub(ReadData,40,41)
 							ReceiveDataSmall[12] = tonumber(ReceiveDataSmall[12])
 							--Extra 4
-							ReceiveDataSmall[13] = string.sub(ReadData,41,41)
+							ReceiveDataSmall[13] = string.sub(ReadData,42,42)
 							ReceiveDataSmall[13] = tonumber(ReceiveDataSmall[13])
 							--MapID
-							ReceiveDataSmall[14] = string.sub(ReadData,42,47)
+							ReceiveDataSmall[14] = string.sub(ReadData,43,48)
 							ReceiveDataSmall[14] = tonumber(ReceiveDataSmall[14])
 							--PreviousMapID
-							ReceiveDataSmall[15] = string.sub(ReadData,48,53)
+							ReceiveDataSmall[15] = string.sub(ReadData,49,54)
 							ReceiveDataSmall[15] = tonumber(ReceiveDataSmall[15])
 							--MapConnectionType
-							ReceiveDataSmall[16] = string.sub(ReadData,54,54)
+							ReceiveDataSmall[16] = string.sub(ReadData,55,55)
 							ReceiveDataSmall[16] = tonumber(ReceiveDataSmall[16])
 							--StartX
-							ReceiveDataSmall[18] = string.sub(ReadData,55,58)
+							ReceiveDataSmall[18] = string.sub(ReadData,56,59)
 							ReceiveDataSmall[18] = tonumber(ReceiveDataSmall[18])
 							--StartY
-							ReceiveDataSmall[19] = string.sub(ReadData,59,62)
+							ReceiveDataSmall[19] = string.sub(ReadData,60,63)
 							ReceiveDataSmall[19] = tonumber(ReceiveDataSmall[19])
 							
                             --PlayerRevealFlag
-                            ReceiveDataSmall[20] = string.sub(ReadData,63,63)
+                            ReceiveDataSmall[20] = string.sub(ReadData,64,66)
                             ReceiveDataSmall[20] = tonumber(ReceiveDataSmall[20])
                             --Set connection type to var
 							ReturnConnectionType = ReceiveDataSmall[5]
@@ -3935,7 +3935,7 @@ end
 --Send Data to clients
 function CreatePackett(RequestTemp, PackettTemp)
 	local FillerStuff = "F"
-	Packett = GameID .. Nickname .. PlayerID2 .. PlayerReceiveID .. RequestTemp .. PackettTemp .. CurrentX[PlayerID] .. CurrentY[PlayerID] .. Facing2[PlayerID] .. PlayerExtra1[PlayerID] .. PlayerExtra2[PlayerID] .. PlayerExtra3[PlayerID] .. PlayerExtra4[PlayerID] .. PlayerMapID .. PlayerMapIDPrev .. PlayerMapEntranceType .. StartX[PlayerID] .. StartY[PlayerID] .. PlayerRevealFlag[PlayerID] .. "U"
+	Packett = GameID .. Nickname .. PlayerID2 .. PlayerReceiveID .. RequestTemp .. PackettTemp .. CurrentX[PlayerID] .. CurrentY[PlayerID] .. Facing2[PlayerID] .. PlayerExtra1[PlayerID] .. PlayerExtra2[PlayerID] .. math.floor(PlayerExtra3[PlayerID]/10) .. (PlayerExtra3[PlayerID] % 10) .. PlayerExtra4[PlayerID] .. PlayerMapID .. PlayerMapIDPrev .. PlayerMapEntranceType .. StartX[PlayerID] .. StartY[PlayerID] .. math.floor(PlayerRevealFlag[PlayerID]/100) .. math.floor((PlayerRevealFlag[PlayerID] % 100)/10) .. (PlayerRevealFlag[PlayerID] % 10) .. "U"
     PlayerRevealFlag[PlayerID] = 0;
 end
 
