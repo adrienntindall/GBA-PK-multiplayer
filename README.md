@@ -4,18 +4,83 @@ Made by Adrienn Tindall using ThHunterManX's work.
 
 Currently allows 4 players to see and trade with each other in the game of Firered or Leafgreen. Updates about the base mod (GBA-PK-multiplayer) and more information can be found on youtube, patreon or pokecommunity.
 
-Use the Hide("object") command to hide! Colliding with someone not hidden will reveal you.
+Use the Hide("object") command to hide! Colliding with someone not hidden will reveal you. (Also using the Unhide() command!)
 
-List of currently avaliable objects:
+List of currently avaliable objects: (Or use Hide("random") to get a random sprite!)
 Item Ball ("item")
 Ditto Doll ("ditto")
+Diglett Doll ("diglett")
+Swablu Doll ("swablu")
+Note Mat ("note")
+Azurill Doll ("azurill")
+Pokeball Cushion ("cushion")
+Baltoy Doll ("baltoy")
+Water Balloon ("balloon")
+Rock Smash Rock ("rock")
+Buizel Doll ("buizel")
+Bulbasaur Doll ("bulbasaur")
+Piplup Doll ("piplup")
+Cardboard Box ("box")
+Chatot Doll ("chatot")
+Chikorita Doll ("chikorita")
+Cute Tv ("cutetv")
+Cut Tree ("tree")
+Cyndaquil Doll ("cyndaquil")
+Duskull Doll ("duskull")
+Fence ("fence")
+Fossil ("fossil")
+Wii ("wii")
+Gengar Doll ("gengar")
+Geodude Doll ("geodude")
+Chimchar Doll ("chimchar")
+Grimer Doll ("grimer")
+Gulpin Doll ("gulpin")
+Happiny Doll ("happiny")
+Plusle Doll ("plusle")
+Kecleon Doll ("kecleon")
+Lotad Doll ("lotad")
+Machop Doll ("machop")
+Magikarp Doll ("magikarp")
+Manaphy Doll ("manaphy")
+Marill Doll ("marill")
+Meowth Doll ("meowth")
+Poliwag Doll ("poliwag")
+Minun Doll ("minun")
+Mud Ball ("mud")
+Mudkip Doll ("mudkip")
+Munchlax Doll ("munchlax")
+Nintendo 64 ("n64")
+Odish Doll ("oddish")
+Pichu Doll ("pichu")
+Round TV ("roundtv")
+Seedot Doll ("seedot")
+Shellder Doll ("shellder")
+Chair ("chair")
+Smoochum Doll ("smoochum")
+Squirtle Doll ("squirtle")
+Staryu Doll ("staryu")
+Statue ("statue")
+SNES ("snes")
+Surfing Pikachu ("surfpikachu")
+Tenacruel Doll ("tentacruel")
+Togepi Doll ("togepi")
+Torchic Doll ("torchic")
+Totodile Doll ("totodile")
+Treecko Doll ("treecko")
+Turtwig Doll ("turtwig")
+Unown Doll ("unown")
+Natu Doll ("natu")
+Porygon 2 Doll ("porygon2")
+Wooper Doll ("wooper")
+Voltorb Doll ("voltorb")
+Weedle Doll ("weedle")
+Wobbuffet Doll ("wobbuffet")
+Wynaut Doll ("wynaut")
 
 Check out TheHunterManX's links here:
 
 Patreon: https://www.patreon.com/user?u=81688818
 
-
 Youtube: https://www.youtube.com/channel/UCdXg0-BF9FblZ2GTi3u4orQ
-
 
 Pokecommunity: https://www.pokecommunity.com/showthread.php?t=484949
