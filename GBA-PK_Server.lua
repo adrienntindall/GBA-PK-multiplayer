@@ -3560,11 +3560,11 @@ function ReceiveData(Clientell)
 			if EnableScript == true then
 			--Check if anybody wants to connect
 				if (Clientell:hasdata()) then
-				local ReadData = Clientell:receive(67)
+				local ReadData = Clientell:receive(68)
 			--	local StringLen = 0
 					
 				if ReadData ~= nil then
-				--	console:log("READDATA: " .. ReadData)
+					--console:log("READDATA: " .. ReadData)
 					--Encryption key
 					ReceiveDataSmall[17] = "A"
 					ReceiveDataSmall[1] = string.sub(ReadData,1,4)
@@ -3574,7 +3574,7 @@ function ReceiveData(Clientell)
 					ReceiveDataSmall[4] = tonumber(string.sub(ReadData,13,16))
 					RECEIVEDID2 = ReceiveDataSmall[4] - 1000
 					ReceiveDataSmall[5] = string.sub(ReadData,17,20)
-					ReceiveDataSmall[17] = string.sub(ReadData,67,67)
+					ReceiveDataSmall[17] = string.sub(ReadData,68,68)
 				--	if ReceiveDataSmall[4] == "BATT" then ConsoleForText:print("Valid package! Contents: " .. ReadData) end
 				--	ConsoleForText:print("Type: " .. ReceiveDataSmall[4])
 				--	if ReceiveDataSmall[5] == "POKE" then console:log("Player " .. ReceiveDataSmall[4] .. " is being sent pokemon by " .. ReceiveDataSmall[3]) end
@@ -3646,28 +3646,28 @@ function ReceiveData(Clientell)
 							ReceiveDataSmall[10] = tonumber(ReceiveDataSmall[10])
 							ReceiveDataSmall[10] = ReceiveDataSmall[10] - 100
 							--Extra 2
-							ReceiveDataSmall[11] = string.sub(ReadData,39,39)
+							ReceiveDataSmall[11] = string.sub(ReadData,39,40)
 							ReceiveDataSmall[11] = tonumber(ReceiveDataSmall[11])
 							--Extra 3
-							ReceiveDataSmall[12] = string.sub(ReadData,40,41)
-							ReceiveDataSmall[12] = tonumber(ReceiveDataSmall[12])
+							ReceiveDataSmall[12] = string.sub(ReadData,41,42)
+							ReceiveDataSmall[12] = tonumber(ReceiveDataSmall[12])           
 							--Extra 4
-							ReceiveDataSmall[13] = string.sub(ReadData,42,42)
+							ReceiveDataSmall[13] = string.sub(ReadData,43,43)
 							ReceiveDataSmall[13] = tonumber(ReceiveDataSmall[13])
 							--MapID
-							ReceiveDataSmall[14] = string.sub(ReadData,43,48)
+							ReceiveDataSmall[14] = string.sub(ReadData,44,49)
 							ReceiveDataSmall[14] = tonumber(ReceiveDataSmall[14])
 							--PreviousMapID
-							ReceiveDataSmall[15] = string.sub(ReadData,49,54)
+							ReceiveDataSmall[15] = string.sub(ReadData,50,55)
 							ReceiveDataSmall[15] = tonumber(ReceiveDataSmall[15])
 							--MapConnectionType
-							ReceiveDataSmall[16] = string.sub(ReadData,55,55)
+							ReceiveDataSmall[16] = string.sub(ReadData,56,56)
 							ReceiveDataSmall[16] = tonumber(ReceiveDataSmall[16])
 							--StartX
-							ReceiveDataSmall[18] = string.sub(ReadData,56,59)
+							ReceiveDataSmall[18] = string.sub(ReadData,57,60)
 							ReceiveDataSmall[18] = tonumber(ReceiveDataSmall[18])
 							--StartY
-							ReceiveDataSmall[19] = string.sub(ReadData,60,63)
+							ReceiveDataSmall[19] = string.sub(ReadData,61,64)
 							ReceiveDataSmall[19] = tonumber(ReceiveDataSmall[19])
 							
                             --PlayerRevealFlag
@@ -3935,8 +3935,8 @@ end
 --Send Data to clients
 function CreatePackett(RequestTemp, PackettTemp)
 	local FillerStuff = "F"
-	Packett = GameID .. Nickname .. PlayerID2 .. PlayerReceiveID .. RequestTemp .. PackettTemp .. CurrentX[PlayerID] .. CurrentY[PlayerID] .. Facing2[PlayerID] .. PlayerExtra1[PlayerID] .. PlayerExtra2[PlayerID] .. math.floor(PlayerExtra3[PlayerID]/10) .. (PlayerExtra3[PlayerID] % 10) .. PlayerExtra4[PlayerID] .. PlayerMapID .. PlayerMapIDPrev .. PlayerMapEntranceType .. StartX[PlayerID] .. StartY[PlayerID] .. math.floor(PlayerRevealFlag[PlayerID]/100) .. math.floor((PlayerRevealFlag[PlayerID] % 100)/10) .. (PlayerRevealFlag[PlayerID] % 10) .. "U"
-    PlayerRevealFlag[PlayerID] = 0;
+	Packett = GameID .. Nickname .. PlayerID2 .. PlayerReceiveID .. RequestTemp .. PackettTemp .. CurrentX[PlayerID] .. CurrentY[PlayerID] .. Facing2[PlayerID] .. PlayerExtra1[PlayerID] .. math.floor(PlayerExtra2[PlayerID]/10) .. (PlayerExtra2[PlayerID] % 10) .. math.floor(PlayerExtra3[PlayerID]/10) .. (PlayerExtra3[PlayerID] % 10) .. PlayerExtra4[PlayerID] .. PlayerMapID .. PlayerMapIDPrev .. PlayerMapEntranceType .. StartX[PlayerID] .. StartY[PlayerID] .. math.floor(PlayerRevealFlag[PlayerID]/100) .. math.floor((PlayerRevealFlag[PlayerID] % 100)/10) .. (PlayerRevealFlag[PlayerID] % 10) .. "U"
+    PlayerRevealFlag[PlayerID] = 0
 end
 
 function SendData(DataType, Socket, ExtraData)

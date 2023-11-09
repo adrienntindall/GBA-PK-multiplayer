@@ -1,6 +1,7 @@
 require "include.SpriteData"
 
 FRLGVersion = 1.0
+PlayerRevealFlag = {0,0,0,0,0,0,0,0}
 PlayerExtra2 = {0,0,0,0,0,0,0,0}
 PlayerExtra3 = {0,0,0,0,0,0,0,0}
 OriginalSprite = 0
@@ -91,5 +92,12 @@ function Hide(obj)
         console:log("Hiding!")
     else 
         console:log("Invalid object") 
+    end
+end
+
+function Unhide()
+    if (PlayerExtra3[PlayerID] > 2) then
+        PlayerExtra3[PlayerID] = OriginalSprite
+        PlayerRevealFlag[PlayerID] = 1;
     end
 end
