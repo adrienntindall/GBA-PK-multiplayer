@@ -66,7 +66,7 @@ local MapEntranceType = {1,1,1,1,1,1,1,1}
 ---local PlayerExtra2 = {0,0,0,0,0,0,0,0}
 --local PlayerExtra3 = {0,0,0,0,0,0,0,0}
 local PlayerExtra4 = {0,0,0,0,0,0,0,0}
-local PlayerRevealFlag = {0, 0, 0, 0, 0, 0, 0, 0}
+--local PlayerRevealFlag = {0, 0, 0, 0, 0, 0, 0, 0}
 local PlayerVis = {1,0,0,0,0,0,0,0}
 local Facing2 = {0,0,0,0,0,0,0,0}
 local MapID = {0,0,0,0,0,0,0,0}
@@ -3669,14 +3669,13 @@ function ReceiveData(Clientell)
 							--StartY
 							ReceiveDataSmall[19] = string.sub(ReadData,61,64)
 							ReceiveDataSmall[19] = tonumber(ReceiveDataSmall[19])
-							
                             --PlayerRevealFlag
-                            ReceiveDataSmall[20] = string.sub(ReadData,64,66)
+                            ReceiveDataSmall[20] = string.sub(ReadData,65,67)
                             ReceiveDataSmall[20] = tonumber(ReceiveDataSmall[20])
                             --Set connection type to var
 							ReturnConnectionType = ReceiveDataSmall[5]
 							timeout[RECEIVEDID] = timeoutmax
-						
+						--console:log("" .. ReceiveDataSmall[20])
 					--	ConsoleForText:print("Valid package! Contents: " .. ReadData)
 				--	if ReceiveDataSmall[5] == "DTRA" then ConsoleForText:print("Locktype: " .. LockFromScript) end
 						
@@ -3791,7 +3790,8 @@ function ReceiveData(Clientell)
 						
 						--SPOS
 						if ReceiveDataSmall[5] == "SPOS" and ReceiveDataSmall[3] ~= PlayerID2 then
-								PlayerIDNick[RECEIVEDID] = ReceiveDataSmall[2]
+			
+                                PlayerIDNick[RECEIVEDID] = ReceiveDataSmall[2]
 								if CurrentMapID[RECEIVEDID] ~= ReceiveDataSmall[14] then
 									PlayerAnimationFrame[RECEIVEDID] = 0
 									PlayerAnimationFrame2[RECEIVEDID] = 0
@@ -3809,32 +3809,23 @@ function ReceiveData(Clientell)
 								FutureY[RECEIVEDID] = ReceiveDataSmall[8]
 								PlayerExtra1[RECEIVEDID] = ReceiveDataSmall[10]
 								PlayerExtra2[RECEIVEDID] = ReceiveDataSmall[11]
-                                console:log(PlayerExtra2[RECEIVEDID])
 								PlayerExtra3[RECEIVEDID] = ReceiveDataSmall[12]
 								PlayerExtra4[RECEIVEDID] = ReceiveDataSmall[13]
 								StartX[RECEIVEDID] = ReceiveDataSmall[18]
 								StartY[RECEIVEDID] = ReceiveDataSmall[19]
                                 PlayerRevealFlag[RECEIVEDID] = ReceiveDataSmall[20]
+                                
+                                --console:log(PlayerID .. " ".. PlayerRevealFlag[RECEIVEDID])
+                                if PlayerExtra3[PlayerID] > 2 and (PlayerRevealFlag[RECEIVEDID] & (1 << PlayerID)) ~= 0 then
+                                    PlayerExtra3[PlayerID] = OriginalSprite
+                                    PlayerRevealFlag[PlayerID] = 0;
+                                    console:log("Caught!")
+                                    ResetSelfSprite()
+                                elseif RECEIVEDID & (1 << PlayerID) then
+                                    PlayerRevealFlag[PlayerID] = 0 
+                                end
 						end
-						--TIME
-			--			if ReceiveDataSmall[5] == "TIME" then
-			--				if PlayerTempVar1 == 2 then
-			--					timeout1 = 5
-			--				elseif PlayerTempVar1 == 3 then
-			--					timeout2 = 5
-			--				elseif PlayerTempVar1 == 4 then
-			--					timeout3 = 5
-			--				end
-			--			end
-						
-                       if PlayerExtra3[PlayerID] > 2 and (PlayerRevealFlag[RECEIVEDID] & (1 << PlayerID)) ~= 0 then
-                            PlayerExtra3[PlayerID] = OriginalSprite
-                            PlayerRevealFlag[PlayerID] = 0;
-                            ResetSelfSprite();
-                            console:log("Caught!")
-                        elseif RECEIVEDID & (1 << PlayerID) then
-                            PlayerRevealFlag[PlayerID] = 0 
-                        end
+                        
                         
 						--If nickname doesn't already exist on server and request to join
 						if ReceiveDataSmall[5] == "JOIN" then

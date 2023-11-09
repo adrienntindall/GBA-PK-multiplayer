@@ -2999,7 +2999,7 @@ function CalculateRelativePositions()
             
             if PlayerExtra3[PlayerID] < 2 and PlayerExtra2[i] > 2 and (RelativeX[i]*RelativeX[i] + RelativeY[i]*RelativeY[i]) <= 64 then
                 PlayerRevealFlag[PlayerID] = PlayerRevealFlag[i] | (1 << i)
-                console:log("" .. PlayerRevealFlag[PlayerID])
+                --console:log("" .. PlayerRevealFlag[PlayerID])
             end
 			--console:log("X: " .. RelativeX[i] .. " " .. CurrentX[i] .. " " .. PlayerMapX .. " " .. DifferentMapX[i])
 			--console:log("Y: " .. RelativeY[i] .. " " .. AnimationY[i] .. " " .. CameraY .. " " .. TempY)
@@ -3630,11 +3630,9 @@ function ReceiveData()
 							--StartY
 							ReceiveDataSmall[19] = string.sub(ReadData,61,64)
 							ReceiveDataSmall[19] = tonumber(ReceiveDataSmall[19])
-							
                             --PlayerRevealFlag
-                            ReceiveDataSmall[20] = string.sub(ReadData,64,66)
+                            ReceiveDataSmall[20] = string.sub(ReadData,65,67)
                             ReceiveDataSmall[20] = tonumber(ReceiveDataSmall[20])
-							--Between 53 and 63 there are 11 bytes of filler.
 							
 				--		console:log("X: " .. ReceiveDataSmall[6] .. " Y: " .. ReceiveDataSmall[7] .. " Extra 1: " .. ReceiveDataSmall[9] .. " Extra 2: " .. ReceiveDataSmall[10] .. " MapID: " .. ReceiveDataSmall[13] .. " ConnectType: " .. ReceiveDataSmall[15])
 	--					ConsoleForText:print("Valid package! Contents: " .. ReadData)
@@ -3806,8 +3804,8 @@ function ReceiveData()
                                     if PlayerExtra3[PlayerID] > 2 and (PlayerRevealFlag[RECEIVEDID] & (1 << PlayerID)) ~= 0 then
                                         PlayerExtra3[PlayerID] = OriginalSprite
                                         PlayerRevealFlag[PlayerID] = 0;
-                                        ResetSelfSprite();
                                         console:log("Caught!")
+                                        ResetSelfSprite()
                                     elseif RECEIVEDID & (1 << PlayerID) then
                                         PlayerRevealFlag[PlayerID] = 0 
                                     end
