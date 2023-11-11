@@ -77,7 +77,28 @@ ObjLUT = {
     voltorb = 69, voltorbdoll = 69,
     weedle = 70, weedledoll = 70,
     wobbuffet = 71, wobbuffetdoll = 71,
-    wynaut = 72, whynot = 72, wynautdoll = 72, idk = 72
+    wynaut = 72, whynot = 72, wynautdoll = 72, idk = 72,
+    bluechair = 73,
+    bluecushion = 74,
+    bluestool = 75,
+    frlgstrengthrock = 76,
+    brownfence = 77,
+    bush = 78,
+    box2 = 79,
+    chansey = 80,
+    flower = 81,
+    jigglypuff = 82,
+    ladder = 83,
+    rock1 = 84,
+    rock2 = 85,
+    rock3 = 86,
+    rock4 = 87,
+    gymsign = 88,
+    frlgcuttree = 89,
+    wall = 90,
+    warp = 91,
+    whitefence = 92,
+    woodsign = 93
 }
 
 math.randomseed(os.time())
@@ -86,7 +107,7 @@ function Hide(obj)
     obj = string.lower(obj)
     if PlayerExtra3[PlayerID] <= 2 then OriginalSprite = PlayerExtra2[PlayerID] end
     if obj == "random" then
-        PlayerExtra3[PlayerID] = math.random(3, 72)
+        PlayerExtra3[PlayerID] = math.random(3, 93)
     elseif ObjLUT[obj] ~= nil then
         PlayerExtra3[PlayerID] = ObjLUT[obj]
         console:log("Hiding!")
